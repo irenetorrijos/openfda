@@ -2,7 +2,7 @@ import socket
 import http.client
 import json
 
-PORT = 8092
+PORT = 8093
 MAX_OPEN_REQUESTS = 5
 
 
@@ -21,7 +21,6 @@ def process_client(clientsocket):
     mydrugs = []
     a = 0
     first = "<ol>" + "\n"
-    final = "<\ol>"
 
     while a < 10:
         if 'active_ingredient' in repos['results'][a]:
@@ -34,9 +33,8 @@ def process_client(clientsocket):
     with open("trying3.html", "w") as f:
         f.write(first)
         for element in mydrugs:
-            element_1 = "<\t>" + element
+            element_1 = "<t>" + "<li>" + element
             f.write(element_1)
-        f.write(final)
 
     with open("trying3.html","r") as f:
         file = f.read()
@@ -61,7 +59,7 @@ serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # bind the socket to a public host, and a well-known port
 hostname = socket.gethostname()
 # Let's use better the local interface name
-hostname = "10.10.104.81"
+hostname = "127.0.0.1"
 try:
     serversocket.bind((hostname, PORT))
     # become a server socket
