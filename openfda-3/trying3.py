@@ -1,9 +1,13 @@
 import socket
 import http.client
 import json
+import socketserver
+
+socketserver.TCPServer.allow_reuse_adress = True
 
 PORT = 8093
 MAX_OPEN_REQUESTS = 5
+
 
 
 def process_client(clientsocket):
@@ -20,7 +24,6 @@ def process_client(clientsocket):
 
     mydrugs = []
     a = 0
-    first = "<ol>" + "\n"
 
     while a < 10:
         if 'active_ingredient' in repos['results'][a]:
@@ -31,7 +34,8 @@ def process_client(clientsocket):
             mydrugs.append("No drug found in this index")
 
     with open("trying3.html", "w") as f:
-        f.write(first)
+        f.write("<head>" + "DRUGS' ID LIST" + "</head>")
+        f.write("<ol>" + "\n")
         for element in mydrugs:
             element_1 = "<t>" + "<li>" + element
             f.write(element_1)
