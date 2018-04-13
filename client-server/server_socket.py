@@ -19,7 +19,7 @@ def process_client(clientsocket):
 # create an INET, STREAMing socket
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # bind the socket to a public host, and a well-known port
-hostname = socket.gethostname()
+hostname = "127.0.0.1"
 try:
     serversocket.bind((hostname, PORT))
     # become a server socket
