@@ -19,11 +19,33 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
+        def file_send(file_name):
+            with open (file_name, "r") as f:
+                message = f.read()
+            self.wfile.write(bytes(message, "utf8"))
+
+        #conn = http.client.HTTPSConnection("api.fda.gov")
+        #conn.request("GET", "/drug/label.json?search=generic_name:%s&limit=%s", None, headers)
+        #r1 = conn.getresponse()
+        #print(r1.status, r1.reason)
+        #repos_raw = r1.read().decode("utf-8")
+        #conn.close()
+
+        #repos = json.loads(repos_raw)
+
+
+
+
         # Send message back to client
         message = "Hello world! " + self.path
         # Write content as utf-8 data
         hola = self.wfile.write(bytes(message, "utf8"))
         path = self.path
+
+        headers = {'User-Agent': 'http-client'}
+
+
+
         if path == "/":
             filename = "index.html"
         else:
