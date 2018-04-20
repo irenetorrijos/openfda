@@ -2,6 +2,7 @@ import socket
 import http.client
 import json
 import socketserver
+import http.server
 
 socketserver.TCPServer.allow_reuse_adress = True
 
@@ -63,7 +64,7 @@ serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # bind the socket to a public host, and a well-known port
 hostname = socket.gethostname()
 # Let's use better the local interface name
-hostname = "172.20.10.8"
+hostname = "localhost"
 try:
     serversocket.bind((hostname, PORT))
     # become a server socket
@@ -81,3 +82,4 @@ try:
 except socket.error as ex:
     print("Problemas using port %i. Do you have permission?" % PORT)
     print(ex)
+    
