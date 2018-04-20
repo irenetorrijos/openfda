@@ -82,4 +82,3 @@ try:
 except socket.error as ex:
     print("Problemas using port %i. Do you have permission?" % PORT)
     print(ex)
-    
