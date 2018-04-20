@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Search OpenFDA</title>
 </head>
-<body>
+<body style="background-color:#DBF5F2;">
 
+
+    <h1>Search OpenFDA Application</h1>
+<form action="search active ingredient">
+    <p><h2>Search by the name of the active ingridient. A limit can be entered</h2></p>
+    Drug Label: <input name="Label"type="text"><br>
+    Limit: <input name="Limit"type="text"><br>
+    <input type="submit">
+
+</form>
+
+<form action="search manufacturer">
+    <p><h2>Search by the name of the manufacturer of the drug. A limit can be entered</h2></p>
+    Manufacturer: <input name="Manufacturer"type="text"><br>
+    Limit: <input name="Limit"type="text"><br>
+    <input type="submit">
+
+</form>
+
+<form action="search druglist">
+    <p><h2>Search for a drug list.</h2></p>
+    Drug List: <input name="Druglist"type="text"><br>
+    <input type="submit">
+
+</form>
+
+<form action="search manufacturer list">
+    <p><h2>By introducing an inactive you get the drug that has it.</h2></p>
+    Manufacturer List: <input name="Manufacturerlist"type="text"><br>
+    <input type="submit">
+
+</form>
 </body>
 </html>
