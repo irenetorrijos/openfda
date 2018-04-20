@@ -28,7 +28,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
         if self.path == "/":
             print("SEARCH: client entered search web")
-            with open("search.html",'r') as f:
+            with open("search4.html",'r') as f:
                 mensaje= f.read()
                 self.wfile.write(bytes(mensaje, "utf8"))
 
