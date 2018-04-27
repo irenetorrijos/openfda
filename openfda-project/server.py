@@ -17,14 +17,47 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
+        def act_ing():
+            headers = {'User-Agent': 'http-client'}
+            conn = http.client.HTTPSConnection("api.fda.gov")
+            data = self.path.strip('/search?').split('&')
+            drug = data[0].split('=')[1]
+            limit = data[1].split('=')[1]
+            print("Searching . . .")
 
-        #def file_sent(nombre_arch):
-         #   with open(nombre_arch,'r') as f:
-             #   mensaje= f.read()
+            url = "/drug/label.json?search=active_ingredient:" + drug + '&' + 'limit=' + limit
+            conn.request("GET", url, None, headers)
+            r1 = conn.getresponse()
+            repos_raw = r1.read().decode("utf-8")
+            conn.close()
+            repos = json.loads(repos_raw)
+
+            repos = json.loads(repos_raw)
+            active = []
+            a = 0
+            nlimit = int(limit)
+
+            while a < nlimit:
+                try:
+                    active.append(repos['results'][a]["openfda"]["brand_name"][0])
+                    a += 1
+
+                except KeyError:
+                    active.append('No brand name found in this index')
+                    a += 1
+
+            with open("active_ingredient.html", "w") as f:
+                f.write("<head>" + "DRUGS' ID LIST" + "</head>")
+                f.write("<ol>")
+                for element in active:
+                    element_1 = "<t>" + "<li>" + element
+                    f.write(element_1)
 
 
 
-        #path = self.path
+
+
+        path = self.path
 
         if self.path == "/":
             print("SEARCH: client entered search web")
@@ -32,22 +65,13 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                 mensaje= f.read()
                 self.wfile.write(bytes(mensaje, "utf8"))
 
-        elif 'search' in self.path:  #find a drug and limit that has been entered
-            headers = {'User-Agent': 'http-client'}
-            conn = http.client.HTTPSConnection("api.fda.gov")
-            data = self.path.strip('/search?').split('&')
-            drug = data[0].split('=')[1]
-            limit = data[1].split('=')[1]
-            print("client has succesfully made a request")
+        elif 'search_active_ingredient' in self.path:
+            print('Active ingredient')
+            act_ing()
+            with open("active_ingredient.html", "r") as f:
+                mensaje = f.read()
+                self.wfile.write(bytes(mensaje, "utf8"))
 
-
-            url = "/drug/label.json?search=active_ingredient:"+ drug + '&' + 'limit=' + limit
-            print(url)
-            conn.request("GET", url, None, headers)
-            r1 = conn.getresponse()
-            repos_raw = r1.read().decode("utf-8")
-            conn.close()
-            repos = json.loads(repos_raw)
 
 
         return
