@@ -32,7 +32,6 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             conn.close()
             repos = json.loads(repos_raw)
 
-            repos = json.loads(repos_raw)
             active = []
             a = 0
             nlimit = int(limit)
@@ -47,7 +46,8 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                     a += 1
 
             with open("active_ingredient.html", "w") as f:
-                f.write("<head>" + "DRUGS' ID LIST" + "</head>")
+                f.write('<body style="background-color:indianred">')
+                f.write("<head>" + "<h1>" + "DRUG'S BRAND NAMES" + "</h1>" + "</head>")
                 f.write("<ol>")
                 for element in active:
                     element_1 = "<t>" + "<li>" + element
