@@ -1,4 +1,4 @@
-def list_man():
+def list_warn():
 
     headers = {'User-Agent': 'http-client'}
     conn = http.client.HTTPSConnection("api.fda.gov")
@@ -15,21 +15,33 @@ def list_man():
 
     nlimit = int(limit)
     a = 0
-    druglist = []
+    warninglist = []
 
     while a < nlimit:
         try:
-            druglist.append(repos['results'][a]["openfda"]["manufacturer_name"][0])
+            warninglist.append(repos['results'][a]["warnings"][0])
             a += 1
 
         except KeyError:
-            druglist.append('No brand name found in this index')
+            warninglist.append('Unknown')
+            a += 1
+
+    b = 0
+    druglist = []
+
+    while b < nlimit:
+        try:
+            druglist.append(repos['results'][a]["openfda"]["brand_name"][0])
+            a += 1
+
+        except KeyError:
+            druglist.append('Unknown')
             a += 1
 
     with open("manufacturer_list.html", "w") as f:
         f.write('<body style="background-color:palegreen">')
-        f.write("<head>" + "<h1>" + "DRUG'S LIST" + "</h1>" + "</head>")
+        f.write("<head>" + "<h1>" + "WARNINGS LIST" + "</h1>" + "</head>")
         f.write("<ol>")
-        for element in druglist:
+        while i < nlimit:
             element_1 = "<t>" + "<li>" + element
             f.write(element_1)

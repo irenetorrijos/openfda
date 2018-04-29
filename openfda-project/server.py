@@ -5,7 +5,7 @@ import json
 
 # -- IP and the port of the server
 IP = "localhost"  # Localhost means "I": your local machine
-PORT = 8002
+PORT = 8000
 
 socketserver.TCPServer.allow_reuse_address = True
 # HTTPRequestHandler class
@@ -42,7 +42,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                     a += 1
 
                 except KeyError:
-                    active.append('No brand name found in this index')
+                    active.append('Unknown')
                     a += 1
 
             with open("active_ingredient.html", "w") as f:
@@ -78,7 +78,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                     a += 1
 
                 except KeyError:
-                    manuf.append('No brand name found in this index')
+                    manuf.append('Unknown')
                     a += 1
 
             with open("manufacturer_name.html", "w") as f:
@@ -115,7 +115,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                     a += 1
 
                 except KeyError:
-                    druglist.append('No brand name found in this index')
+                    druglist.append('Unknown')
                     a += 1
 
             with open("drug_list.html", "w") as f:
@@ -150,7 +150,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                     a += 1
 
                 except KeyError:
-                    druglist.append('No manufacturer name found in this index')
+                    druglist.append('Unknown')
                     a += 1
 
             with open("manufacturer_list.html", "w") as f:
