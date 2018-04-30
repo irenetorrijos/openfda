@@ -16,11 +16,16 @@ def list_warn():
     nlimit = int(limit)
     a = 0
     warninglist = []
+    b = 0
+    druglist = []
 
     while a < nlimit:
         try:
             warninglist.append(repos['results'][a]["warnings"][0])
             a += 1
+            try:
+                druglist.append(repos['results'][a]["openfda"]["brand_name"][0])
+                b += 1
 
         except KeyError:
             warninglist.append('Unknown')
@@ -42,6 +47,43 @@ def list_warn():
         f.write('<body style="background-color:palegreen">')
         f.write("<head>" + "<h1>" + "WARNINGS LIST" + "</h1>" + "</head>")
         f.write("<ol>")
-        while i < nlimit:
-            element_1 = "<t>" + "<li>" + element
-            f.write(element_1)
+
+    a = 0
+    while a < nlimit:
+        element_1 = "<t>" + "<li>" + "warnings for" + druglist[i] + "are:" + warninglist[i]
+        f.write(element_1)
+
+
+    with open("manufacturer_list.html", "w"):
+        self.wfile.write(bytes('<html><head><h1>Search OpenFDA Application</h1><h3>Warnings List</h3><body style="background-color: palegreen" >\n<ol>', "utf8"))
+
+        while a < nlimit:
+            try:
+                for n in range(len(repos['results'][i]["openfda"]["brand_name"])):
+                    try:
+                        drug = "<li>"+ "brand name is: " + repos['results'][i]["openfda"]["brand_name"][0] + "</li>"
+                        self.wfile.write(bytes(drug, "utf8"))
+                    except KeyError:
+                        break
+            except KeyError:
+                drug = "<li>" + "brand name is: " + "NOT FOUND" + "</li>"
+                self.wfile.write(bytes(drug, "utf8"))
+                continue
+        self.wfile.write(bytes('</ol><h3>Thank you, come again</h3> \n <img src="http://www.konbini.com/en/files/2017/08/apu-feat.jpg" alt="Sad"><p><a href="http://%s:%s/">Back to Main Page</a></p></head></html>' % (IP, PORT), "utf8"))
+
+
+
+
+elif nlimit > 100:
+print("este")
+print("ERROR")
+with open("error.html", "r") as f:
+    mensaje = f.read()
+    self.wfile.write(bytes(mensaje, "utf8"))
+
+
+elif nlimit > 100:
+print("ERROR")
+with open("error.html", "r") as f:
+    mensaje = f.read()
+    self.wfile.write(bytes(mensaje, "utf8"))
