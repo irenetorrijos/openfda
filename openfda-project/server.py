@@ -23,7 +23,6 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             data = self.path.strip('/search?').split('&')
             drug = data[0].split('=')[1]
             limit = data[1].split('=')[1]
-            nlimit = int(limit)
             print("Searching . . .")
 
             url = "/drug/label.json?search=active_ingredient:" + drug + '&' + 'limit=' + limit
@@ -35,12 +34,15 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
             if "error" in repos:
                 print("ERROR")
+                print("Not found")
+                with open("error.html", "w") as f:
+                    f.write("<head><title>Error 404</title><h1>Error 404</h1></head><body><h2>Not found</h2><h2>Probably it doesn't exists or the limit introdued is too high (max: 100)</h2></body>")
                 with open("error.html", "r") as f:
                     mensaje = f.read()
                     self.wfile.write(bytes(mensaje, "utf8"))
 
             else:
-
+                nlimit = int(limit)
                 active = []
                 a = 0
 
@@ -49,7 +51,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                         active.append(repos['results'][a]["openfda"]["brand_name"][0])
                         a += 1
 
-                    except KeyError:
+                    except:
                         active.append('Unknown')
                         a += 1
 
@@ -72,7 +74,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             data = self.path.strip('/search?').split('&')
             manufacturer = data[0].split('=')[1]
             limit = data[1].split('=')[1]
-            nlimit = int(limit)
+
             print("Searching . . .")
 
             url = "/drug/label.json?search=openfda.manufacturer_name:" + manufacturer + '&' + 'limit=' + limit
@@ -84,6 +86,9 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
             if "error" in repos:
                 print("ERROR")
+                print("Not found")
+                with open("error.html", "w") as f:
+                    f.write("<head><title>Error 404</title><h1>Error 404</h1></head><body><h2>Not found</h2><h2>Probably it doesn't exists or the limit introdued is too high (max: 100)</h2></body>")
                 with open("error.html", "r") as f:
                     mensaje = f.read()
                     self.wfile.write(bytes(mensaje, "utf8"))
@@ -91,13 +96,14 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             else:
                 manuf = []
                 a = 0
+                nlimit = int(limit)
 
                 while a < nlimit:
                     try:
                         manuf.append(repos['results'][a]["openfda"]["brand_name"][0])
                         a += 1
 
-                    except KeyError:
+                    except:
                         manuf.append('Unknown')
                         a += 1
 
@@ -131,23 +137,26 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             repos = json.loads(repos_raw)
 
 
-            nlimit = int(limit)
-            a = 0
-            druglist = []
 
             if "error" in repos:
                 print("ERROR")
+                print("Not found")
+                with open("error.html", "w") as f:
+                    f.write("<head><title>Error 404</title><h1>Error 404</h1></head><body><h2>Not found</h2><h2>The number introduced is probably too high. The maximun number is 100</h2></body>")
                 with open("error.html", "r") as f:
                     mensaje = f.read()
                     self.wfile.write(bytes(mensaje, "utf8"))
 
             else:
+                nlimit = int(limit)
+                a = 0
+                druglist = []
                 while a < nlimit:
                     try:
                         druglist.append(repos['results'][a]["openfda"]["brand_name"][0])
                         a += 1
 
-                    except KeyError:
+                    except:
                         druglist.append('Unknown')
                         a += 1
 
@@ -178,23 +187,27 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             conn.close()
             repos = json.loads(repos_raw)
 
-            nlimit = int(limit)
-            a = 0
-            druglist = []
+
 
             if "error" in repos:
                 print("ERROR")
+                print("Not found")
+                with open("error.html", "w") as f:
+                    f.write("<head><title>Error 404</title><h1>Error 404</h1></head><body><h2>Not found</h2><h2>The number introduced is probably too high. The maximun number is 100</h2></body>")
                 with open("error.html", "r") as f:
                     mensaje = f.read()
                     self.wfile.write(bytes(mensaje, "utf8"))
 
             else:
+                nlimit = int(limit)
+                a = 0
+                druglist = []
                 while a < nlimit:
                     try:
                         druglist.append(repos['results'][a]["openfda"]["manufacturer_name"][0])
                         a += 1
 
-                    except KeyError:
+                    except:
                         druglist.append('Unknown')
                         a += 1
 
@@ -225,26 +238,29 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             conn.close()
             repos = json.loads(repos_raw)
 
-            nlimit = int(limit)
-            a = 0
-            warninglist = []
-            b = 0
-            druglist = []
+
 
             if "error" in repos:
                 print("ERROR")
+                print("Not found")
+                with open("error.html", "w") as f:
+                    f.write("<head><title>Error 404</title><h1>Error 404</h1></head><body><h2>Not found</h2><h2>The number introduced is probably too high. The maximun number is 100</h2></body>")
                 with open("error.html", "r") as f:
                     mensaje = f.read()
                     self.wfile.write(bytes(mensaje, "utf8"))
 
             else:
-
+                nlimit = int(limit)
+                a = 0
+                warninglist = []
+                b = 0
+                druglist = []
                 while a < nlimit:
                     try:
                         warninglist.append(repos['results'][a]["warnings"][0])
                         a += 1
 
-                    except KeyError:
+                    except:
                         warninglist.append('Unknown')
                         a += 1
 
@@ -253,7 +269,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                         druglist.append(repos['results'][b]["openfda"]["brand_name"][0])
                         b += 1
 
-                    except KeyError:
+                    except:
                         druglist.append('Unknown')
                         b += 1
 
@@ -305,6 +321,9 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
         else:
             print("ERROR")
+            print("Wrong path")
+            with open("error.html", "r") as w:
+                f.write("<head><title>Error 404</title><h1>Error 404</h1></head><body><h2>Not found</h2><h2>Wrong Path</h2></body>")
             with open("error.html", "r") as f:
                 mensaje = f.read()
                 self.wfile.write(bytes(mensaje, "utf8"))
