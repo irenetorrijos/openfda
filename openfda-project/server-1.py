@@ -39,6 +39,9 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
         self.end_headers()
 
+
+
+
         def act_ing():
             headers = {'User-Agent': 'http-client'}
             conn = http.client.HTTPSConnection("api.fda.gov")
@@ -358,6 +361,9 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(bytes(mensaje, "utf8"))
         elif 'redirect' in path:
             print('Redirecting')
+            with open("search.html",'r') as f:
+                mensaje= f.read()
+                self.wfile.write(bytes(mensaje, "utf8"))
 
         else:
             print("ERROR")
