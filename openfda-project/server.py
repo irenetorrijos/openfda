@@ -46,6 +46,8 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             drug = data[0].split('=')[1]
             if "limit" in self.path:
                 limit = data[1].split('=')[1]
+                if limit == "":
+                    limit = '10'
             else:
                 limit = '10'
             print("Searching . . .")
@@ -100,6 +102,8 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             manufacturer = data[0].split('=')[1]
             if "limit" in self.path:
                 limit = data[1].split('=')[1]
+                if limit == "":
+                    limit = '10'
             else:
                 limit = "10"
 
