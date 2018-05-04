@@ -285,8 +285,8 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             else:
                 nlimit = int(limit)
                 a = 0
-                warninglist = []
                 b = 0
+                warninglist = []
                 druglist = []
                 while a < nlimit:
                     try:
@@ -313,7 +313,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
                     i = 0
                     while i < nlimit:
-                        element_1 = "<t>" + "<li>" + "Warnings for " + druglist[i] + " are:" + "\n" + warninglist[i]
+                        element_1 = "<t>" + "<li>" + "Warnings for " + druglist[i] + " are:" + warninglist[i]
                         f.write(element_1)
                         i += 1
 
