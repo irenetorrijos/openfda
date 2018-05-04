@@ -19,10 +19,10 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
         if path == "/" or 'searchDrug' in path or 'searchCompany' in path or 'listDrugs' in path or 'listCompanies' in path or 'listWarnings' in path:
             status_code = 200
-        elif 'secret' in path:
-            status_code = 401
         elif 'redirect' in path:
             status_code = 302
+        elif 'secret' in path:
+            status_code = 401
         else:
             status_code = 404
 
@@ -31,10 +31,11 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
         if path == "/" or 'searchDrug' in path or 'searchCompany' in path or 'listDrugs' in path or 'listCompanies' in path or 'listWarnings' in path:
             self.send_header('Content-type', 'text/html')
-        elif 'secret' in path:
-            self.send_header('WWW-Authenticate', 'Basic realm="OpenFDA Private Zone"')
         elif 'redirect' in path:
             self.send_header('Location', 'http://localhost:8000/')
+        elif 'secret' in path:
+            self.send_header('WWW-Authenticate', 'Basic realm="OpenFDA Private Zone"')
+
 
 
         self.end_headers()
