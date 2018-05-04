@@ -11,32 +11,10 @@ socketserver.TCPServer.allow_reuse_address = True
 # HTTPRequestHandler class
 class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     # GET
-
     def do_GET(self):
-
-        path = self.path
         # Send response status code
-
-        if path == "/" or 'searchDrug' in path or 'searchCompany' in path or 'listDrugs' in path or 'listCompanies' in path or 'listWarnings' in path:
-            status_code = 200
-        elif 'secret' in path:
-            status_code = 401
-        elif 'redirect' in path:
-            status_code = 302
-        else:
-            status_code = 404
-
-
-        self.send_response(status_code)
-
-        if path == "/" or 'searchDrug' in path or 'searchCompany' in path or 'listDrugs' in path or 'listCompanies' in path or 'listWarnings' in path:
-            self.send_header('Content-type', 'text/html')
-        elif 'secret' in path:
-            self.send_header('WWW-Authenticate', 'Basic realm="OpenFDA Private Zone"')
-        elif 'redirect' in path:
-            self.send_header('Location', 'http://localhost:8000/')
-
-
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
 
         def act_ing():
@@ -44,10 +22,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             conn = http.client.HTTPSConnection("api.fda.gov")
             data = self.path.strip('/search?').split('&')
             drug = data[0].split('=')[1]
-            if "limit" in self.path:
-                limit = data[1].split('=')[1]
-            else:
-                limit = '10'
+            limit = data[1].split('=')[1]
             print("Searching . . .")
 
             url = "/drug/label.json?search=active_ingredient:" + drug + '&' + 'limit=' + limit
@@ -98,10 +73,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             conn = http.client.HTTPSConnection("api.fda.gov")
             data = self.path.strip('/search?').split('&')
             manufacturer = data[0].split('=')[1]
-            if "limit" in self.path:
-                limit = data[1].split('=')[1]
-            else:
-                limit = "10"
+            limit = data[1].split('=')[1]
 
             print("Searching . . .")
 
@@ -327,47 +299,34 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                 mensaje= f.read()
                 self.wfile.write(bytes(mensaje, "utf8"))
 
-        elif 'searchDrug' in path:
+        elif 'search_active_ingredient' in path:
             print('Active ingredient')
             act_ing()
 
-        elif 'searchCompany' in path:
+        elif 'search_manufacturer' in path:
             print('Manufacturer name')
             man_name()
 
-        elif 'listDrugs' in path:
+        elif 'search_drug' in path:
             print('Drug list')
             list_drug()
 
-        elif 'listCompanies' in path:
+        elif 'search_manlist' in path:
             print('Company list')
             list_man()
 
-        elif 'listWarnings' in path:
+        elif 'search_warnlist' in path:
             print('Warnings list')
             list_warn()
 
-        elif 'secret' in path:
-            print('Error 401')
-            print('Unauthorized')
-
-            with open("secret.html", "w") as f:
-                f.write("<head><title>Error 401</title><h1>Error 401</h1></head><body><h2>Unauthorized</h2></body>")
-            with open("secret.html", "r") as f:
-                mensaje = f.read()
-                self.wfile.write(bytes(mensaje, "utf8"))
-        elif 'redirect' in path:
-            print('Redirecting')
-
         else:
             print("ERROR")
-            with open("error.html", "w") as f:
-                f.write("<head><title>Error 404</title><h1>Error 404</h1>")
-                f.write("</head><body><h2>Not found</h2><h2>Wrong Path</h2></body>")
+            print("Wrong path")
+            with open("error.html", "r") as w:
+                f.write("<head><title>Error 404</title><h1>Error 404</h1></head><body><h2>Not found</h2><h2>Wrong Path</h2></body>")
             with open("error.html", "r") as f:
                 mensaje = f.read()
                 self.wfile.write(bytes(mensaje, "utf8"))
-
 
         return
 
