@@ -19,10 +19,10 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
         if path == "/" or 'searchDrug' in path or 'searchCompany' in path or 'listDrugs' in path or 'listCompanies' in path or 'listWarnings' in path:
             status_code = 200
-        elif 'secret' in path:
-            status_code = 401
         elif 'redirect' in path:
             status_code = 302
+        elif 'secret' in path:
+            status_code = 401
         else:
             status_code = 404
 
@@ -31,16 +31,14 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
         if path == "/" or 'searchDrug' in path or 'searchCompany' in path or 'listDrugs' in path or 'listCompanies' in path or 'listWarnings' in path:
             self.send_header('Content-type', 'text/html')
-        elif 'secret' in path:
-            self.send_header('WWW-Authenticate', 'Basic realm="OpenFDA Private Zone"')
         elif 'redirect' in path:
             self.send_header('Location', 'http://localhost:8000/')
+        elif 'secret' in path:
+            self.send_header('WWW-Authenticate', 'Basic realm="OpenFDA Private Zone"')
+
 
 
         self.end_headers()
-
-
-
 
         def act_ing():
             headers = {'User-Agent': 'http-client'}
@@ -49,6 +47,8 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             drug = data[0].split('=')[1]
             if "limit" in self.path:
                 limit = data[1].split('=')[1]
+                if limit == "":
+                    limit = '10'
             else:
                 limit = '10'
             print("Searching . . .")
@@ -103,6 +103,8 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             manufacturer = data[0].split('=')[1]
             if "limit" in self.path:
                 limit = data[1].split('=')[1]
+                if limit == "":
+                    limit = '10'
             else:
                 limit = "10"
 
@@ -283,8 +285,8 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             else:
                 nlimit = int(limit)
                 a = 0
-                warninglist = []
                 b = 0
+                warninglist = []
                 druglist = []
                 while a < nlimit:
                     try:
@@ -311,7 +313,7 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 
                     i = 0
                     while i < nlimit:
-                        element_1 = "<t>" + "<li>" + "Warnings for " + druglist[i] + " are:" + "\n" + warninglist[i]
+                        element_1 = "<t>" + "<li>" + "Warnings for " + druglist[i] + " are:" + warninglist[i]
                         f.write(element_1)
                         i += 1
 
@@ -361,9 +363,6 @@ class testHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(bytes(mensaje, "utf8"))
         elif 'redirect' in path:
             print('Redirecting')
-            with open("search.html",'r') as f:
-                mensaje= f.read()
-                self.wfile.write(bytes(mensaje, "utf8"))
 
         else:
             print("ERROR")
