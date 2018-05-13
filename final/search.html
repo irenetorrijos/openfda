@@ -1,0 +1,51 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Search OpenFDA</title>
+</head>
+<body style="background-color:#DBF5F2;">
+
+    <font face="impact">
+    <h1><MARQUEE WIDTH="55%" BEHAVIOR=ALTERNATE BGCOLOR="WHITE">Search OpenFDA Application</MARQUEE></h1></font>
+    <h3>Maximum limit: 100</h3>
+
+<form action="searchDrug">
+    <p><h2>Search by the name of the active ingredient. A limit can be entered</h2></p>
+    Drug: <input name="active_ingredient"type="text"><br>
+    Limit: <input name="limit"type="text"><br>
+    <input type="submit">
+
+</form>
+
+<form action="searchCompany">
+    <p><h2>Search by the name of the company of the drug. A limit can be entered</h2></p>
+    Company: <input name="company"type="text"><br>
+    Limit: <input name="limit"type="text"><br>
+    <input type="submit">
+
+</form>
+
+<form action="listDrugs">
+    <p><h2>listDrugs</h2></p>
+    Limit: <input name="Druglist"type="text"><br>
+    <input type="submit">
+
+</form>
+
+<form action="listCompanies">
+    <p><h2>listCompanies</h2></p>
+    Limit: <input name="Manufacturerlist"type="text"><br>
+    <input type="submit">
+
+</form>
+
+<form action="listWarnings">
+    <p><h2>listWarnings</h2></p>
+    Limit: <input name="warninglist"type="text"><br>
+    <input type="submit">
+
+</form>
+
+
+</body>
+</html>
