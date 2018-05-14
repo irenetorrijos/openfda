@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
@@ -161,7 +160,7 @@ class TestOpenFDA(unittest.TestCase):
         url = 'http://localhost:' + str(self.TEST_PORT)
         url += '/listWarnings?limit=10'
         resp = requests.get(url)
-        #print(resp.text)
+        # print(resp.text)
         parser = OpenFDAHTMLParser()
         parser.feed(resp.text)
         self.assertEqual(parser.items_number, 10)
@@ -170,7 +169,7 @@ class TestOpenFDA(unittest.TestCase):
         url = 'http://localhost:' + str(self.TEST_PORT)
         url += '/searchCompany?company=' + self.TEST_COMPANY
         resp = requests.get(url)
-        print(resp.text)
+        # print(resp.text)
         parser = OpenFDAHTMLParser()
         parser.feed(resp.text)
         self.assertEqual(parser.items_number, 10)
